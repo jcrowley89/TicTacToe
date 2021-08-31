@@ -58,6 +58,18 @@ namespace TicTacToe
             return roundWon;
         }
 
+        private bool BoardIsFull()
+        {
+            foreach (char i in state)
+            {
+                if (i != 'X' && i != 'O')
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public string PlaySquare(int square)
         {
             Console.Clear();
@@ -70,10 +82,18 @@ namespace TicTacToe
                     Active = false;
                     return $"{GetCurrentPlayer()} won!";
                 }
+                else if (BoardIsFull())
+                {
+                    Active = false;
+                    return "It's a draw";
+                }
                 CurrentPlayerX = !CurrentPlayerX;
                 return board;
             }
-            return $"{Render(state)}\n\nIllegal move.";
+            else
+            {
+                return $"{Render(state)}\n\nIllegal move.";
+            }
         }
     }
 }
