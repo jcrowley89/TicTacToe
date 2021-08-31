@@ -16,7 +16,7 @@ namespace TicTacToe
             Console.Clear();
 
             // Game Setup
-            var game = new Game();
+            Game game = new Game();
             game.CurrentPlayerX = true;
             game.Active = true;
             Utils.WriteLineInColor(ConsoleColor.Green, GameInfo.SampleBoard);
