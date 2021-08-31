@@ -10,10 +10,9 @@ namespace TicTacToe
     {
         public bool Active { get; set; }
         public bool CurrentPlayerX { get; set; }
+        public char CurrentPlayer => CurrentPlayerX ? 'X' : 'O';
 
-        /**
-         * Stores the game state array indexes for each winning combination
-         */
+        private char[] state = new char[9] { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
         private int[,] winningCombos = new int[8, 3] {
             { 0, 3, 6 }, // Column 1
             { 1, 4, 7 }, // Column 2
@@ -26,14 +25,6 @@ namespace TicTacToe
         };
 
         /**
-         * Returns the correct char for the currently active player
-         */
-        public char GetCurrentPlayer()
-        {
-            return CurrentPlayerX ? 'X' : 'O';
-        }
-
-        /**
         * Places square on game board and returns the appropriate output
         */
         public string PlaySquare(int square)
@@ -41,12 +32,12 @@ namespace TicTacToe
             Console.Clear();
             if (square <= 8 && state[square] != 'X' && state[square] != 'O')
             {
-                state[square] = GetCurrentPlayer();
+                state[square] = CurrentPlayer;
                 var board = Render(state);
                 if (PlayerWon())
                 {
                     Active = false;
-                    return $"{GetCurrentPlayer()} won!";
+                    return $"{CurrentPlayer} won!";
                 }
                 else if (BoardIsFull())
                 {
@@ -61,11 +52,6 @@ namespace TicTacToe
                 return $"{Render(state)}\n\nIllegal move.";
             }
         }
-
-        /**
-         * Tracks the state of the gameboard in an array
-         */
-        private char[] state = new char[9] { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
 
         /**
          * Renders the gameboard with the given state array
@@ -84,7 +70,7 @@ namespace TicTacToe
             for (int i = 0; i <= 7; i++)
             {
                 int[] winCombo = new int[3] { winningCombos[i, 0], winningCombos[i, 1], winningCombos[i, 2] };
-                var currentPlayer = GetCurrentPlayer();
+                var currentPlayer = CurrentPlayer;
                 var a = state[winCombo[0]];
                 var b = state[winCombo[1]];
                 var c = state[winCombo[2]];

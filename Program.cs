@@ -22,7 +22,7 @@ namespace TicTacToe
             Utils.WriteLineInColor(ConsoleColor.Green, GameInfo.SampleBoard);
             while (game.Active == true)
             {
-                Utils.WriteLineInColor(ConsoleColor.Yellow, $"\n{game.GetCurrentPlayer()}'s turn. Choose a square:");
+                Utils.WriteLineInColor(ConsoleColor.Yellow, $"\n{game.CurrentPlayer}'s turn. Choose a square:");
                 int playerChoice;
                 try
                 {
