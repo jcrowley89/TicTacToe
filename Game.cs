@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp3
+namespace TicTacToe
 {
     class Game
     {
@@ -73,7 +73,7 @@ namespace ConsoleApp3
                 CurrentPlayerX = !CurrentPlayerX;
                 return board;
             }
-            return $"Illegal move.\n{Render(state)}";
+            return $"{Render(state)}\n\nIllegal move.";
         }
     }
 }
