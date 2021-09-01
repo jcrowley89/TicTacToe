@@ -24,41 +24,116 @@ namespace TicTacToe
             { 2, 4, 6 } // Diag 2
         };
 
+        public void PromptToStart()
+        {
+            GameInfo.Header();
+            Console.WriteLine("Press any key to start game.");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
+        public void Start()
+        {
+            CurrentPlayerX = true;
+            Active = true;
+        }
+
+        public int PromptForPlay()
+        {
+            Console.Clear();
+            GameInfo.Header();
+            RenderBoard();
+            Utils.WriteLineInColor(ConsoleColor.Yellow, $"\n{CurrentPlayer}'s turn. Choose a square:");
+            int playerChoice;
+            try
+            {
+                playerChoice = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                playerChoice = 9;
+            }
+            return playerChoice;
+        }
+
+        public void End()
+        {
+            Utils.WriteLineInColor(ConsoleColor.Yellow, "Press any key to exit.");
+            Console.ReadKey();
+            Console.Clear();
+        }
+
         /**
         * Places square on game board and returns the appropriate output
         */
-        public string PlaySquare(int square)
+        public void PlaySquare(int square)
         {
             Console.Clear();
             if (square <= 8 && state[square] != 'X' && state[square] != 'O')
             {
                 state[square] = CurrentPlayer;
-                var board = Render(state);
+                RenderBoard();
                 if (PlayerWon())
                 {
                     Active = false;
-                    return $"{CurrentPlayer} won!";
+                    return;
                 }
                 else if (BoardIsFull())
                 {
                     Active = false;
-                    return "It's a draw";
+                    GameInfo.Header();
+                    RenderBoard();
+                    Utils.WriteLineInColor(ConsoleColor.Yellow, "\nIt's a draw.");
+                    return;
                 }
                 CurrentPlayerX = !CurrentPlayerX;
-                return board;
+                return;
             }
             else
             {
-                return $"{Render(state)}\n\nIllegal move.";
+                Utils.WriteLineInColor(ConsoleColor.Red, "Illegal Move");
+                return;
+            }
+        }
+
+        private void RenderSquare(char s)
+        {
+            if (s == 'X')
+            {
+                Utils.WriteInColor(ConsoleColor.Blue, $"{s}");
+            } else if (s == 'O')
+            {
+                Utils.WriteInColor(ConsoleColor.Green, $"{s}");
+            } else
+            {
+                Console.Write($"{s}");
             }
         }
 
         /**
          * Renders the gameboard with the given state array
          */
-        private string Render(char[] state)
+        private void RenderBoard()
         {
-            return $"\n   {state[0]} | {state[1]} | {state[2]} \n  -----------\n   {state[3]} | {state[4]} | {state[5]}\n  -----------\n   {state[6]} | {state[7]} | {state[8]} ";
+            Console.Write("\n ");
+            RenderSquare(state[0]);
+            Console.Write(" | ");
+            RenderSquare(state[1]);
+            Console.Write(" | ");
+            RenderSquare(state[2]);
+            Console.Write(" \n------------\n ");
+            RenderSquare(state[3]);
+            Console.Write(" | ");
+            RenderSquare(state[4]);
+            Console.Write(" | ");
+            RenderSquare(state[5]);
+            Console.Write(" \n------------\n ");
+            RenderSquare(state[6]);
+            Console.Write(" | ");
+            RenderSquare(state[7]);
+            Console.Write(" | ");
+            RenderSquare(state[8]);
+            Console.Write(" \n");
         }
 
         /**
@@ -80,6 +155,7 @@ namespace TicTacToe
                   c == currentPlayer
                 )
                 {
+                    Utils.WriteLineInColor(ConsoleColor.Green, $"\n{currentPlayer} Won!");
                     roundWon = true;
                 }
             }
